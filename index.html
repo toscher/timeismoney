@@ -653,7 +653,7 @@
       if (config.currency === 'JPY') {
         formattedValue = Math.floor(displayValue).toLocaleString();
       } else {
-        formattedValue = displayValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        formattedValue = Math.floor(displayValue).toLocaleString();
       }
       
       document.getElementById('runway-amount').textContent = symbol + formattedValue;
