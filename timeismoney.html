@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time is Money - Entrepreneur Runway</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="money-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" text-anchor="middle" fill="rgba(255,255,255,0.1)" font-size="12" font-family="serif">$</text></pattern></defs><rect width="100" height="100" fill="url(%23money-pattern)"/></svg>');
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 69, 0, 0.1) 0%, transparent 30%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.1) 0%, transparent 30%),
+                  radial-gradient(circle at 40% 40%, rgba(255, 69, 0, 0.05) 0%, transparent 40%);
+      z-index: -1;
+      animation: burn-glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes burn-glow {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.6; }
+    }
+
+    .container {
+      text-align: center;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 300;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255, 69, 0, 0.3);
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    h1::after {
+      content: '🔥💰';
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.6em;
+      animation: burn-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes burn-bounce {
+      0%, 100% { 
+        transform: translateY(-50%) rotate(-5deg); 
+        filter: hue-rotate(0deg);
+      }
+      50% { 
+        transform: translateY(-60%) rotate(5deg); 
+        filter: hue-rotate(20deg);
+      }
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      opacity: 0.9;
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    .config-panel {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .config-panel::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><text x="10" y="15" fill="rgba(255,69,0,0.1)" font-size="8">💸</text><text x="30" y="30" fill="rgba(255,140,0,0.08)" font-size="6">💰</text><text x="50" y="10" fill="rgba(255,69,0,0.12)" font-size="7">🔥</text><text x="70" y="25" fill="rgba(255,165,0,0.1)" font-size="5">💵</text><text x="85" y="40" fill="rgba(255,69,0,0.09)" font-size="6">💸</text></svg>') repeat;
+      animation: burn-float 20s linear infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes burn-float {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .config-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mode-toggle-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .mode-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mode-option {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .mode-option.active {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      transform: translateY(-1px);
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    input, select {
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      width: 100%;
+      max-width: 200px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background: white;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .update-btn {
+      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+    }
+
+    .update-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .countdown-display {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-display::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 69, 0, 0.1) 30%, 
+        rgba(255, 140, 0, 0.2) 50%, 
+        rgba(255, 69, 0, 0.1) 70%, 
+        transparent);
+      animation: burn-sweep 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes burn-sweep {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: -100%; }
+    }
+
+    #runway-amount {
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 30px rgba(255, 69, 0, 0.4);
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .countdown-display.danger #runway-amount {
+      animation: money-burn 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes money-burn {
+      0% { 
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 30px rgba(255, 69, 0, 0.6);
+        transform: scale(1);
+      }
+      100% { 
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 40px rgba(255, 0, 0, 0.8);
+        transform: scale(1.02);
+      }
+    }
+
+    .runway-label {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .burn-rate {
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #4ade80;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .danger {
+      color: #ef4444;
+      background: rgba(255, 69, 0, 0.1);
+      border: 1px solid rgba(255, 69, 0, 0.3);
+    }
+
+    .danger .status-indicator {
+      background: #ef4444;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+      animation: pulse-fire 1s infinite;
+    }
+
+    @keyframes pulse-fire {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.7; 
+        transform: scale(1.2);
+      }
+    }
+
+    .warning {
+      color: #fbbf24;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.3);
+    }
+
+    .warning .status-indicator {
+      background: #fbbf24;
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+    }
+
+    .countup-mode .status-indicator {
+      background: #3b82f6;
+    }
+
+    .countup-mode {
+      color: #93c5d;
+    }
+
+    .countup-mode #runway-amount {
+    color: white;   /* keep value strong */
+  }
+
+    @media (max-width: 768px) {
+      .config-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .config-panel {
+        padding: 1.5rem;
+      }
+
+      .mode-toggle-row {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      h1::after {
+        right: -40px;
+        font-size: 0.5em;
+      }
+    }
+
+    /* Fire particles animation */
+    .fire-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fire-particle {
+      position: absolute;
+      font-size: 12px;
+      animation: fire-rise 3s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes fire-rise {
+      0% { 
+        opacity: 0;
+        transform: translateY(100vh) scale(1) rotate(0deg);
+      }
+      10% { 
+        opacity: 1;
+      }
+      90% { 
+        opacity: 1;
+      }
+      100% { 
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5) rotate(180deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Congratulations champ! </h1>
+    <h2> Time is money, and you just quit your job to be an entrepreneur.</h2> <br>
+    <p class="subtitle">Needing motivation or getting distracted? This countdown shows you how much runway you have left based upon your previous salary. Alternatively, the ever increasing opportunity cost of the job you just quit! Go get em tiger!</p>
+    
+    <div class="fire-particles" id="fireParticles"></div>
+    
+    <div class="config-panel">
+      <div class="mode-toggle-row">
+        <div class="toggle-group">
+          <label>View Mode:</label>
+          <div class="mode-toggle">
+            <button class="mode-option active" data-mode="countdown"> 📉 Runway Depletion Mode  </button>
+            <button class="mode-option" data-mode="countup">📈 Opportunity Cost Accumulation Mode</button>
+          </div>
+        </div>
+      </div>
+
+        <div class="countdown-display" id="display">
+      <div class="runway-label">
+        <span class="status-indicator"></span>
+        <span id="display-label">Remaining Runway</span>
+      </div>
+      <div id="runway-amount">Loading...</div>
+      <div class="burn-rate" id="burn-rate">Calculating burn rate...</div>
+    </div>
+  </div>
+<div class="config-panel">
+<h2> Settings: </h2>
+<br></br>
+
+      <div class="config-row">
+        <div class="input-group">
+          <label for="salary">How much money (after tax) were you making in the job you just quit? </label>
+          <input type="number" id="salary" value="100000" min="0" step="1000">
+        </div>
+        
+        <div class="input-group">
+          <label for="years">How many years of salary would you like your runway to be? </label>
+          <input type="number" id="years" value="1" min="0.1" max="10" step="0.1">
+        </div>
+        
+        <div class="input-group">
+          <label for="currency">Currency</label>
+          <select id="currency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="CAD">CAD (C$)</option>
+            <option value="AUD">AUD (A$)</option>
+            <option value="JPY">JPY (¥)</option>
+            <option value="CHF">CHF (CHF)</option>
+            <option value="NOK">NOK (kr)</option>
+            <option value="SEK">SEK (kr)</option>
+            <option value="DKK">DKK (kr)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="startDate">When did you quit your job? </label>
+          <input type="date" id="startDate">
+        </div>
+      </div>
+      
+      <button class="update-btn" onclick="updateConfiguration()">Update Calculation</button>
+    </div>
+    </div>
+  
+  <script>
+    let fireEmitterTimer = null;
+    let fireEmitterIntervalMs = null;
+    let config = {
+      startValue: 100000,
+      decrementPerSecond: 0.0875,
+      currency: 'USD',
+      startDate: new Date("2025-08-22"),
+      mode: 'countdown'
+    };
+
+    const currencySymbols = {
+      'USD': '$',
+      'EUR': '€',
+      'GBP': '£',
+      'CAD': 'C$',
+      'AUD': 'A$',
+      'JPY': '¥',
+      'CHF': 'CHF ',
+      'NOK': 'kr ',
+      'SEK': 'kr ',
+      'DKK': 'kr '
+    };
+
+ function createFireParticles() {
+  const container = document.getElementById('fireParticles');
+  const particles = ['🔥', '💸', '💰', '💵', '💳'];
+
+  // Compute runway percentage
+  const now = new Date();
+  const secondsPassed = Math.floor((now - config.startDate) / 1000);
+  const currentValue = Math.max(0, config.startValue - (config.decrementPerSecond * secondsPassed));
+  const runwayPercentage = (currentValue / config.startValue) * 100;
+
+  // --- Dynamic emission rate (particles/sec), higher when runway is lower ---
+  // heat = 0 at 100% runway, heat = 1 at 0% runway
+  const heat = Math.max(0, Math.min(1, 1 - runwayPercentage / 100));
+
+  // Ease so it ramps up noticeably in danger territory
+  const eased = Math.pow(heat, 1.8);
+
+  // Tune these to taste:
+  const minRate = 1.5;   // particles/sec at 100% runway
+  const maxRate = 40;    // particles/sec at 0% runway
+
+  const rate = minRate + (maxRate - minRate) * eased; // particles per second
+  const intervalMs = Math.max(40, Math.round(1000 / rate)); // one particle every X ms
+
+  // If the emitter is already running at (roughly) this interval, do nothing
+  if (fireEmitterTimer && fireEmitterIntervalMs === intervalMs) return;
+
+  // (Re)start emitter with new interval
+  if (fireEmitterTimer) clearInterval(fireEmitterTimer);
+  fireEmitterIntervalMs = intervalMs;
+
+  fireEmitterTimer = setInterval(() => {
+    // Spawn one particle
+    const particle = document.createElement('div');
+    particle.className = 'fire-particle';
+    particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+
+    // Randomize visuals a bit
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.fontSize = (10 + Math.random() * 16) + 'px';
+
+    const delay = Math.random() * 0.6;           // small stagger
+    const duration = 2 + Math.random() * 2;      // 2–4s
+    particle.style.animationDelay = delay + 's';
+    particle.style.animationDuration = duration + 's';
+
+    container.appendChild(particle);
+
+    // Cap DOM nodes to avoid buildup
+    const MAX_DOM_PARTICLES = 120;
+    while (container.childElementCount > MAX_DOM_PARTICLES) {
+      container.removeChild(container.firstChild);
+    }
+
+    // Remove after it finishes its animation
+    setTimeout(() => {
+      if (particle.parentNode) particle.parentNode.removeChild(particle);
+    }, (delay + duration) * 1000 + 50);
+  }, intervalMs);
+}
+
+
+
+    function initializePage() {
+      // Set today's date as default
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      document.getElementById('startDate').valueAsDate = today;
+      config.startDate = today;
+
+      // Add event listeners for mode toggle
+      document.querySelectorAll('.mode-option').forEach(button => {
+        button.addEventListener('click', function() {
+          document.querySelectorAll('.mode-option').forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          config.mode = this.dataset.mode;
+          updateDisplayMode();
+          updateRunwayDisplay();
+        });
+      });
+    }
+
+    function updateDisplayMode() {
+      const display = document.getElementById('display');
+      const label = document.getElementById('display-label');
+      
+      if (config.mode === 'countdown') {
+        display.classList.remove('countup-mode');
+        label.textContent = 'Remaining Runway';
+      } else {
+        display.classList.add('countup-mode');
+        label.textContent = 'Opportunity Cost Accumulated';
+      }
+    }
+
+    function updateConfiguration() {
+      const salary = parseFloat(document.getElementById('salary').value) || 70000;
+      const years = parseFloat(document.getElementById('years').value) || 1;
+      const currency = document.getElementById('currency').value;
+      const startDateInput = document.getElementById('startDate').valueAsDate;
+      
+      config.startValue = salary * years;
+      config.currency = currency;
+      config.decrementPerSecond = (salary / 365) / 86400; // Daily burn rate converted to per second
+      
+      if (startDateInput) {
+        config.startDate = new Date(startDateInput);
+        config.startDate.setHours(0, 0, 0, 0);
+      }
+      
+      // Update burn rate display
+      const dailyBurn = salary / 365;
+      const symbol = currencySymbols[currency];
+      document.getElementById('burn-rate').textContent = 
+        `${config.mode === 'countdown' ? 'Burning' : 'Forgoing'} ${symbol}${dailyBurn.toFixed(2)} per day`;
+      
+      updateRunwayDisplay();
+    }
+
+    function updateRunwayDisplay() {
+      const now = new Date();
+      const secondsPassed = Math.floor((now - config.startDate) / 1000);
+      
+      let displayValue;
+      const symbol = currencySymbols[config.currency];
+      
+      if (config.mode === 'countdown') {
+        // Runway depletion mode - show remaining funds
+        displayValue = Math.max(0, config.startValue - (config.decrementPerSecond * secondsPassed));
+      } else {
+        // Opportunity cost mode - show accumulated cost
+        displayValue = Math.max(0, config.decrementPerSecond * secondsPassed);
+      }
+      
+      // Format number based on currency
+      let formattedValue;
+      if (config.currency === 'JPY') {
+        formattedValue = Math.floor(displayValue).toLocaleString();
+      } else {
+        formattedValue = displayValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+      
+      document.getElementById('runway-amount').textContent = symbol + formattedValue;
+      
+      // Update status based on mode and values
+      const display = document.querySelector('.countdown-display');
+      display.classList.remove('warning', 'danger');
+      
+      if (config.mode === 'countdown') {
+        const runwayPercentage = (displayValue / config.startValue) * 100;
+        if (runwayPercentage <= 10) {
+          display.classList.add('danger');
+          createFireParticles();
+        } else if (runwayPercentage <= 30) {
+          display.classList.add('warning');
+          }
+      }
+    }
+
+    createFireParticles();
+
+    // Initialize the page
+    initializePage();
+    updateConfiguration();
+    
+    // Update display every second
+    setInterval(updateRunwayDisplay, 1000);
+    
+    // Allow Enter key to update configuration
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        updateConfiguration();
+      }
+    });
+  </script>
+</body>
+</html>
