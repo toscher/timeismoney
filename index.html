@@ -497,7 +497,7 @@
       startValue: 100000,
       decrementPerSecond: 0.0875,
       currency: 'USD',
-      startDate: new Date("2025-07-22"),
+      startDate: new Date("2025-08-22"),
       mode: 'countdown'
     };
 
@@ -666,7 +666,6 @@
         const runwayPercentage = (displayValue / config.startValue) * 100;
         if (runwayPercentage <= 10) {
           display.classList.add('danger');
-          createFireParticles();
         } else if (runwayPercentage <= 30) {
           display.classList.add('warning');
           }
